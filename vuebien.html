@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VueBien — AI Real Estate Video Belgium</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#1A6B4A;
+  --green-light:#E1F5EE;
+  --dark:#080C10;
+  --dark2:#0D1219;
+  --dark3:#131920;
+  --dark4:#1A2230;
+  --border:rgba(255,255,255,0.07);
+  --text:rgba(255,255,255,0.92);
+  --muted:rgba(255,255,255,0.45);
+  --accent:#2DD882;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none}
+
+/* Custom cursor */
+.cursor{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.15s;transform:translate(-50%,-50%)}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(45,216,130,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:transform 0.08s,width 0.2s,height 0.2s,opacity 0.2s;transform:translate(-50%,-50%)}
+.cursor-ring.hover{width:48px;height:48px;opacity:0.6}
+
+/* Noise overlay */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(8,12,16,0.92);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:0.06em;color:var(--text)}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--accent);color:#080C10;border:none;padding:9px 22px;border-radius:100px;font-size:13px;font-weight:500;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;letter-spacing:0.02em}
+.nav-cta:hover{transform:scale(1.04)}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(26,107,74,0.12) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(45,216,130,0.08);border:1px solid rgba(45,216,130,0.2);padding:6px 16px;border-radius:100px;font-size:12px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;animation:fadeup 0.8s ease both}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,96px);font-weight:300;line-height:1.0;margin-bottom:1.5rem;letter-spacing:-0.01em;animation:fadeup 0.8s 0.1s ease both}
+h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7;margin:0 auto 2.5rem;font-weight:300;animation:fadeup 0.8s 0.2s ease both}
+.hero-btns{display:flex;gap:12px;justify-content:center;animation:fadeup 0.8s 0.3s ease both}
+.btn-p{background:var(--accent);color:#080C10;border:none;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:500;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-p:hover{transform:scale(1.04)}
+.btn-s{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 32px;border-radius:100px;font-size:14px;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-s:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeup 1s 0.6s ease both}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollline 2s infinite}
+@keyframes scrollline{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.scroll-hint span{font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase}
+
+@keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Stats */
+.stats{padding:5rem 3rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{background:var(--dark);padding:2.5rem 2rem;text-align:center;transition:background 0.3s}
+.stat:hover{background:var(--dark3)}
+.snum{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:var(--accent);line-height:1;display:block}
+.slabel{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;letter-spacing:0.02em}
+
+/* Sections */
+section{padding:6rem 3rem;max-width:1200px;margin:0 auto}
+.sec-tag{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:block}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;line-height:1.1;margin-bottom:3rem}
+h2 em{font-style:italic;color:var(--accent)}
+
+/* Rooms */
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.room-card{background:var(--dark2);padding:1.75rem;cursor:none;transition:background 0.3s;position:relative;overflow:hidden}
+.room-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,216,130,0.06),transparent);opacity:0;transition:opacity 0.3s}
+.room-card:hover{background:var(--dark3)}
+.room-card:hover::before{opacity:1}
+.room-icon{font-size:28px;margin-bottom:1rem;display:block}
+.room-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px}
+.room-dur{font-size:12px;color:var(--muted);margin-bottom:12px}
+.room-tags{display:flex;gap:6px;flex-wrap:wrap}
+.rtag{font-size:10px;border:1px solid var(--border);padding:3px 8px;border-radius:100px;color:var(--muted);letter-spacing:0.05em}
+
+/* Video section */
+.video-section{padding:0 3rem 6rem;max-width:1200px;margin:0 auto}
+.video-wrap{background:var(--dark3);border:1px solid var(--border);border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:none;transition:border-color 0.3s}
+.video-wrap:hover{border-color:rgba(45,216,130,0.3)}
+.video-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(26,107,74,0.15),transparent 70%)}
+.play-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;z-index:1}
+.play-btn{width:72px;height:72px;border-radius:50%;border:1px solid rgba(45,216,130,0.4);display:flex;align-items:center;justify-content:center;font-size:24px;transition:all 0.3s;color:var(--accent)}
+.video-wrap:hover .play-btn{background:rgba(45,216,130,0.1);border-color:var(--accent);transform:scale(1.1)}
+.video-label{font-size:13px;color:var(--muted);letter-spacing:0.05em}
+.video-meta{position:absolute;bottom:1.25rem;left:1.25rem;background:rgba(8,12,16,0.85);border:1px solid var(--border);padding:6px 14px;border-radius:100px;font-size:12px;color:var(--muted)}
+
+/* Pricing */
+.pricing-section{padding:0 3rem 6rem;max-width:1200px;margin:0 auto}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:3rem}
+.plan{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all 0.3s;cursor:none}
+.plan:hover{border-color:rgba(255,255,255,0.15);background:var(--dark3);transform:translateY(-4px)}
+.plan.feat{border-color:rgba(45,216,130,0.35);background:rgba(26,107,74,0.08)}
+.plan.feat:hover{border-color:rgba(45,216,130,0.6)}
+.pbadge{display:inline-block;background:rgba(45,216,130,0.12);color:var(--accent);border:1px solid rgba(45,216,130,0.25);font-size:11px;padding:3px 12px;border-radius:100px;margin-bottom:1rem;letter-spacing:0.05em}
+.pname{font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:0.05em;text-transform:uppercase}
+.pprice{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1;margin-bottom:6px;color:var(--text)}
+.pprice sup{font-size:22px;vertical-align:super}
+.pprice sub{font-size:16px;color:var(--muted);font-family:'DM Sans',sans-serif}
+.pdesc{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
+.plist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:1.75rem}
+.plist li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.plist li::before{content:'✓';color:var(--accent);font-size:12px;flex-shrink:0}
+.pbtn{width:100%;padding:12px;border-radius:100px;font-size:13px;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;border:1px solid var(--border);background:transparent;color:var(--text);letter-spacing:0.02em}
+.pbtn:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05)}
+.plan.feat .pbtn{background:var(--accent);color:#080C10;border:none;font-weight:500}
+.plan.feat .pbtn:hover{transform:scale(1.02)}
+
+/* Calculator */
+.calc{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.calc-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:0.5rem;grid-column:1/-1}
+.calc-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;grid-column:1/-1}
+.clabel{font-size:12px;color:var(--muted);margin-bottom:8px;letter-spacing:0.05em;text-transform:uppercase}
+.crow{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+input[type=range]{flex:1;-webkit-appearance:none;height:2px;background:var(--border);border-radius:2px;outline:none;cursor:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:none;border:2px solid var(--dark)}
+.cval{font-size:14px;font-weight:500;min-width:40px;text-align:right;color:var(--accent)}
+.results{background:var(--dark3);border-radius:12px;border:1px solid var(--border);padding:1.5rem}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.rrow:last-child{border-bottom:none;padding-top:14px;margin-top:6px}
+.rlabel{font-size:12px;color:var(--muted)}
+.rval{font-size:14px;font-weight:500}
+.rval.big{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--accent)}
+
+/* Steps */
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all 0.3s;cursor:none}
+.step:hover{border-color:rgba(45,216,130,0.3);background:var(--dark3);transform:translateY(-4px)}
+.step-n{width:40px;height:40px;border-radius:50%;border:1px solid rgba(45,216,130,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--accent);margin-bottom:1rem}
+.step-t{font-size:14px;font-weight:500;margin-bottom:8px}
+.step-d{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* Contact */
+.contact-section{padding:0 3rem 6rem;max-width:1200px;margin:0 auto}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start}
+.contact-left h2{margin-bottom:1rem}
+.contact-left p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:2rem}
+.contact-badge{display:flex;align-items:center;gap:10px;background:rgba(45,216,130,0.08);border:1px solid rgba(45,216,130,0.2);padding:12px 16px;border-radius:12px;margin-bottom:12px}
+.cb-icon{width:36px;height:36px;background:rgba(45,216,130,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cb-text{font-size:12px;color:var(--muted);line-height:1.4}
+.cb-text strong{display:block;color:var(--text);font-size:13px;margin-bottom:2px}
+form{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ff{grid-column:1/-1}
+label{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;display:block}
+input,textarea{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+input:focus,textarea:focus{border-color:rgba(45,216,130,0.4)}
+textarea{min-height:90px;resize:vertical}
+.submit-btn{grid-column:1/-1;background:var(--accent);color:#080C10;border:none;padding:13px;border-radius:100px;font-size:14px;font-weight:500;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;letter-spacing:0.02em}
+.submit-btn:hover{transform:scale(1.02)}
+.success{display:none;grid-column:1/-1;background:rgba(45,216,130,0.08);border:1px solid rgba(45,216,130,0.25);border-radius:8px;padding:1rem;text-align:center;font-size:13px;color:var(--accent)}
+
+/* Banner */
+.banner{margin:0 3rem 6rem;max-width:1200px;margin-left:auto;margin-right:auto;background:var(--dark2);border:1px solid rgba(45,216,130,0.2);border-radius:16px;padding:3rem;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.banner h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:8px}
+.banner p{font-size:14px;color:var(--muted);line-height:1.5}
+.banner .btn-p{white-space:nowrap;font-size:14px;padding:13px 28px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:0.06em}
+.flogo span{color:var(--accent)}
+.fcopy{font-size:12px;color:var(--muted)}
+.fmail{font-size:12px;color:var(--muted)}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  section,.video-section,.pricing-section,.contact-section{padding-left:1.5rem;padding-right:1.5rem}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .rooms-grid{grid-template-columns:repeat(2,1fr)}
+  .plans{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-wrap{grid-template-columns:1fr}
+  .calc{grid-template-columns:1fr}
+  .banner{flex-direction:column;margin-left:1.5rem;margin-right:1.5rem;text-align:center}
+  h1{font-size:48px}
+  footer{flex-direction:column;gap:12px;text-align:center}
+}
+@media(max-width:600px){
+  .rooms-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  .ff{grid-column:1}
+  .submit-btn{grid-column:1}
+  .stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav id="nav">
+  <div class="logo">Vue<span>Bien</span></div>
+  <div class="nav-links">
+    <a href="#examples">Examples</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get free video</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-tag">✦ AI Real Estate Video — Belgium</div>
+  <h1>Sell properties<br><em>faster</em> with<br>cinematic video</h1>
+  <p class="hero-sub">Professional AI-generated video clips for Belgian real estate agencies. Every room, cinematic quality. Delivered in 24 hours.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-p">Get my first free video</a>
+    <a href="#examples" class="btn-s">See examples</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat reveal">
+    <span class="snum">403%</span>
+    <span class="slabel">More inquiries<br>with video listings</span>
+  </div>
+  <div class="stat reveal">
+    <span class="snum">49%</span>
+    <span class="slabel">Faster sale time<br>vs photo-only</span>
+  </div>
+  <div class="stat reveal">
+    <span class="snum">73%</span>
+    <span class="slabel">Sellers prefer<br>agents who use video</span>
+  </div>
+  <div class="stat reveal">
+    <span class="snum">6%</span>
+    <span class="slabel">Higher average<br>sale price</span>
+  </div>
+</div>
+
+<section id="examples">
+  <span class="sec-tag reveal">Portfolio</span>
+  <h2 class="reveal">Every room,<br><em>cinematic quality</em></h2>
+</section>
+
+<div class="video-section reveal">
+  <div class="video-wrap">
+    <div class="play-wrap">
+      <div class="play-btn">▶</div>
+      <div class="video-label">Watch the Woluwe-Saint-Pierre walkthrough</div>
+    </div>
+    <div class="video-meta">131m² · 3 bedrooms · €695,000</div>
+  </div>
+</div>
+
+<section style="padding-top:3rem">
+  <div class="rooms-grid reveal">
+    <div class="room-card">
+      <span class="room-icon">🛋️</span>
+      <div class="room-name">Living room</div>
+      <div class="room-dur">6 sec cinematic clip</div>
+      <div class="room-tags"><span class="rtag">Dolly forward</span><span class="rtag">Natural light</span><span class="rtag">4K</span></div>
+    </div>
+    <div class="room-card">
+      <span class="room-icon">🍳</span>
+      <div class="room-name">Kitchen</div>
+      <div class="room-dur">6 sec cinematic clip</div>
+      <div class="room-tags"><span class="rtag">Camera glide</span><span class="rtag">Warm tones</span><span class="rtag">4K</span></div>
+    </div>
+    <div class="room-card">
+      <span class="room-icon">🛏️</span>
+      <div class="room-name">Bedrooms</div>
+      <div class="room-dur">6 sec each · up to 3</div>
+      <div class="room-tags"><span class="rtag">Pan shot</span><span class="rtag">Morning light</span><span class="rtag">4K</span></div>
+    </div>
+    <div class="room-card">
+      <span class="room-icon">🚿</span>
+      <div class="room-name">Bathroom</div>
+      <div class="room-dur">8 sec cinematic clip</div>
+      <div class="room-tags"><span class="rtag">Push shot</span><span class="rtag">Clean white</span><span class="rtag">4K</span></div>
+    </div>
+    <div class="room-card">
+      <span class="room-icon">🌿</span>
+      <div class="room-name">Balcony</div>
+      <div class="room-dur">8 sec cinematic clip</div>
+      <div class="room-tags"><span class="rtag">Outdoor</span><span class="rtag">Blue sky</span><span class="rtag">4K</span></div>
+    </div>
+    <div class="room-card">
+      <span class="room-icon">🏢</span>
+      <div class="room-name">Exterior</div>
+      <div class="room-dur">8 sec cinematic clip</div>
+      <div class="room-tags"><span class="rtag">Aerial style</span><span class="rtag">Brussels</span><span class="rtag">4K</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <span class="sec-tag reveal">Process</span>
+  <h2 class="reveal">Ready in <em>4 simple steps</em></h2>
+  <div class="steps-grid reveal">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-t">Send the listing</div>
+      <div class="step-d">Share your Immoweb URL or photos of the property — that's all we need to get started.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-t">We generate the clips</div>
+      <div class="step-d">Using Google Veo 3 and Kling 3.0, we create photorealistic cinematic clips for every room.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-t">We edit and deliver</div>
+      <div class="step-d">All clips are stitched together with smooth transitions, licensed music, and room title cards.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-t">You publish and sell</div>
+      <div class="step-d">Post on Immoweb, Instagram Reels and TikTok. One room per day all week — maximum reach.</div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="padding-bottom:2rem">
+  <span class="sec-tag reveal">Pricing</span>
+  <h2 class="reveal">Simple,<br><em>transparent pricing</em></h2>
+</section>
+
+<div class="pricing-section">
+  <div class="plans reveal">
+    <div class="plan">
+      <div class="pname">Single property</div>
+      <div class="pprice"><sup>€</sup>150</div>
+      <div class="pdesc">Perfect for trying the service on one listing</div>
+      <ul class="plist">
+        <li>Up to 8 room clips</li>
+        <li>Full combined property video</li>
+        <li>Licensed background music</li>
+        <li>24hr delivery</li>
+      </ul>
+      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get started</button>
+    </div>
+    <div class="plan feat">
+      <div class="pbadge">Most popular</div>
+      <div class="pname">5-video bundle</div>
+      <div class="pprice"><sup>€</sup>600</div>
+      <div class="pdesc">Best value for active agencies with multiple listings</div>
+      <ul class="plist">
+        <li>5 full property videos</li>
+        <li>Individual clips for social media</li>
+        <li>9:16 vertical cuts for Reels &amp; TikTok</li>
+        <li>Priority 24hr delivery</li>
+      </ul>
+      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get started</button>
+    </div>
+    <div class="plan">
+      <div class="pname">Monthly retainer</div>
+      <div class="pprice"><sup>€</sup>400<sub>/mo</sub></div>
+      <div class="pdesc">Unlimited listings — ideal for busy agencies</div>
+      <ul class="plist">
+        <li>Unlimited properties per month</li>
+        <li>Everything included</li>
+        <li>Same-day rush option</li>
+        <li>Dedicated support</li>
+      </ul>
+      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact us</button>
+    </div>
+  </div>
+
+  <div class="calc reveal">
+    <div class="calc-title">Income calculator</div>
+    <div class="calc-sub">Estimate your monthly earnings — drag the sliders to see your potential income</div>
+    <div>
+      <div class="clabel">Deals per week</div>
+      <div class="crow">
+        <input type="range" min="1" max="20" value="5" step="1" id="deals" oninput="calc()">
+        <span class="cval" id="dout">5</span>
+      </div>
+      <div class="clabel">Price per video (€)</div>
+      <div class="crow">
+        <input type="range" min="100" max="350" value="150" step="10" id="price" oninput="calc()">
+        <span class="cval" id="pout">150</span>
+      </div>
+      <div class="clabel">Retainer clients</div>
+      <div class="crow">
+        <input type="range" min="0" max="10" value="0" step="1" id="ret" oninput="calc()">
+        <span class="cval" id="rout">0</span>
+      </div>
+    </div>
+    <div class="results">
+      <div class="rrow"><span class="rlabel">Videos per month</span><span class="rval" id="rv">20</span></div>
+      <div class="rrow"><span class="rlabel">From one-off videos</span><span class="rval" id="ro">€3,000</span></div>
+      <div class="rrow"><span class="rlabel">From retainers</span><span class="rval" id="rr">€0</span></div>
+      <div class="rrow"><span class="rlabel" style="font-weight:500">Monthly gross</span><span class="rval big" id="rt">€3,000</span></div>
+      <div class="rrow"><span class="rlabel">Annual estimate</span><span class="rval" id="ra">€36,000</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="banner reveal">
+  <div>
+    <h3>Your first video is completely free</h3>
+    <p>Send us any listing — we create a full cinematic walkthrough at no cost.<br>No commitment. No credit card. Just see the quality.</p>
+  </div>
+  <a href="#contact" class="btn-p">Claim free video →</a>
+</div>
+
+<section id="contact" style="padding-bottom:2rem">
+  <span class="sec-tag reveal">Get started</span>
+  <h2 class="reveal">Request your<br><em>free video</em></h2>
+</section>
+
+<div class="contact-section">
+  <div class="contact-wrap reveal">
+    <div class="contact-left">
+      <p>Send us any listing and we'll create a full cinematic property video at no cost. No commitment, no credit card required.</p>
+      <div class="contact-badge">
+        <div class="cb-icon">⚡</div>
+        <div class="cb-text"><strong>24 hour delivery</strong>Send today, receive tomorrow</div>
+      </div>
+      <div class="contact-badge">
+        <div class="cb-icon">🎬</div>
+        <div class="cb-text"><strong>First video free</strong>No obligation whatsoever</div>
+      </div>
+      <div class="contact-badge">
+        <div class="cb-icon">📱</div>
+        <div class="cb-text"><strong>All formats included</strong>Immoweb, Instagram, TikTok</div>
+      </div>
+    </div>
+    <form id="cform" onsubmit="submitForm(event)">
+      <div>
+        <label>Your name</label>
+        <input type="text" placeholder="Jean Dupont" required>
+      </div>
+      <div>
+        <label>Agency name</label>
+        <input type="text" placeholder="Victoire Junot">
+      </div>
+      <div>
+        <label>Email address</label>
+        <input type="email" placeholder="agent@agency.be" required>
+      </div>
+      <div>
+        <label>Phone number</label>
+        <input type="tel" placeholder="+32 XXX XX XX XX">
+      </div>
+      <div class="ff">
+        <label>Immoweb listing URL</label>
+        <textarea placeholder="Paste your Immoweb listing URL here, or describe the property..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send request — first video is free →</button>
+      <div class="success" id="success">✓ Request sent! We'll be in touch within a few hours.</div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="flogo">Vue<span>Bien</span></div>
+  <div class="fcopy">© 2026 VueBien · Brussels, Belgium</div>
+  <div class="fmail">hadrien.zervas@gmail.com</div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button,.plan,.step,.room-card,.stat,.video-wrap').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+});
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.getBoundingClientRect().top<window.innerHeight-80)el.classList.add('visible');
+  });
+});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(el.getBoundingClientRect().top<window.innerHeight-80)el.classList.add('visible');
+});
+function calc(){
+  const d=parseInt(document.getElementById('deals').value);
+  const p=parseInt(document.getElementById('price').value);
+  const r=parseInt(document.getElementById('ret').value);
+  document.getElementById('dout').textContent=d;
+  document.getElementById('pout').textContent=p;
+  document.getElementById('rout').textContent=r;
+  const v=d*4,o=v*p,ri=r*400,t=o+ri;
+  document.getElementById('rv').textContent=v;
+  document.getElementById('ro').textContent='€'+o.toLocaleString();
+  document.getElementById('rr').textContent='€'+ri.toLocaleString();
+  document.getElementById('rt').textContent='€'+t.toLocaleString();
+  document.getElementById('ra').textContent='€'+(t*12).toLocaleString();
+}
+function submitForm(e){
+  e.preventDefault();
+  document.getElementById('success').style.display='block';
+  e.target.querySelector('.submit-btn').style.display='none';
+}
+</script>
+</body>
+</html>
