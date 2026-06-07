@@ -10,13 +10,13 @@
 :root{
   --green:#1A6B4A;
   --green-light:#E1F5EE;
-  --dark:#080C10;
-  --dark2:#0D1219;
-  --dark3:#131920;
-  --dark4:#1A2230;
-  --border:rgba(255,255,255,0.07);
-  --text:rgba(255,255,255,0.92);
-  --muted:rgba(255,255,255,0.45);
+  --dark:#141B24;
+  --dark2:#1C2530;
+  --dark3:#232E3C;
+  --dark4:#2A3748;
+  --border:rgba(255,255,255,0.10);
+  --text:rgba(255,255,255,0.95);
+  --muted:rgba(255,255,255,0.55);
   --accent:#2DD882;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -129,21 +129,7 @@ h2 em{font-style:italic;color:var(--accent)}
 .plan.feat .pbtn{background:var(--accent);color:#080C10;border:none;font-weight:500}
 .plan.feat .pbtn:hover{transform:scale(1.02)}
 
-/* Calculator */
-.calc{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.calc-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:0.5rem;grid-column:1/-1}
-.calc-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;grid-column:1/-1}
-.clabel{font-size:12px;color:var(--muted);margin-bottom:8px;letter-spacing:0.05em;text-transform:uppercase}
-.crow{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
-input[type=range]{flex:1;-webkit-appearance:none;height:2px;background:var(--border);border-radius:2px;outline:none;cursor:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:none;border:2px solid var(--dark)}
-.cval{font-size:14px;font-weight:500;min-width:40px;text-align:right;color:var(--accent)}
-.results{background:var(--dark3);border-radius:12px;border:1px solid var(--border);padding:1.5rem}
-.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
-.rrow:last-child{border-bottom:none;padding-top:14px;margin-top:6px}
-.rlabel{font-size:12px;color:var(--muted)}
-.rval{font-size:14px;font-weight:500}
-.rval.big{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--accent)}
+
 
 /* Steps */
 .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -279,9 +265,9 @@ footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-i
 
 <section style="padding-top:3rem">
   <div class="rooms-grid reveal">
-    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu__202606050235.mp4')">
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu%E2%80%A6_202606050235.mp4')">
       <div class="room-video-wrap">
-        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu__202606050235.mp4" muted loop playsinline></video>
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu%E2%80%A6_202606050235.mp4" muted loop playsinline></video>
         <div class="room-play">▶</div>
       </div>
       <div class="room-info-wrap">
@@ -323,9 +309,9 @@ footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-i
         <div class="room-tags"><span class="rtag">Push shot</span><span class="rtag">Clean white</span><span class="rtag">4K</span></div>
       </div>
     </div>
-    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining__202606050323.mp4')">
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining%E2%80%A6_202606050323.mp4')">
       <div class="room-video-wrap">
-        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining__202606050323.mp4" muted loop playsinline></video>
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining%E2%80%A6_202606050323.mp4" muted loop playsinline></video>
         <div class="room-play">▶</div>
       </div>
       <div class="room-info-wrap">
@@ -421,34 +407,6 @@ footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-i
     </div>
   </div>
 
-  <div class="calc reveal">
-    <div class="calc-title">Income calculator</div>
-    <div class="calc-sub">Estimate your monthly earnings — drag the sliders to see your potential income</div>
-    <div>
-      <div class="clabel">Deals per week</div>
-      <div class="crow">
-        <input type="range" min="1" max="20" value="5" step="1" id="deals" oninput="calc()">
-        <span class="cval" id="dout">5</span>
-      </div>
-      <div class="clabel">Price per video (€)</div>
-      <div class="crow">
-        <input type="range" min="100" max="350" value="150" step="10" id="price" oninput="calc()">
-        <span class="cval" id="pout">150</span>
-      </div>
-      <div class="clabel">Retainer clients</div>
-      <div class="crow">
-        <input type="range" min="0" max="10" value="0" step="1" id="ret" oninput="calc()">
-        <span class="cval" id="rout">0</span>
-      </div>
-    </div>
-    <div class="results">
-      <div class="rrow"><span class="rlabel">Videos per month</span><span class="rval" id="rv">20</span></div>
-      <div class="rrow"><span class="rlabel">From one-off videos</span><span class="rval" id="ro">€3,000</span></div>
-      <div class="rrow"><span class="rlabel">From retainers</span><span class="rval" id="rr">€0</span></div>
-      <div class="rrow"><span class="rlabel" style="font-weight:500">Monthly gross</span><span class="rval big" id="rt">€3,000</span></div>
-      <div class="rrow"><span class="rlabel">Annual estimate</span><span class="rval" id="ra">€36,000</span></div>
-    </div>
-  </div>
 </div>
 
 <div class="banner reveal">
@@ -534,20 +492,7 @@ window.addEventListener('scroll',()=>{
 document.querySelectorAll('.reveal').forEach(el=>{
   if(el.getBoundingClientRect().top<window.innerHeight-80)el.classList.add('visible');
 });
-function calc(){
-  const d=parseInt(document.getElementById('deals').value);
-  const p=parseInt(document.getElementById('price').value);
-  const r=parseInt(document.getElementById('ret').value);
-  document.getElementById('dout').textContent=d;
-  document.getElementById('pout').textContent=p;
-  document.getElementById('rout').textContent=r;
-  const v=d*4,o=v*p,ri=r*400,t=o+ri;
-  document.getElementById('rv').textContent=v;
-  document.getElementById('ro').textContent='€'+o.toLocaleString();
-  document.getElementById('rr').textContent='€'+ri.toLocaleString();
-  document.getElementById('rt').textContent='€'+t.toLocaleString();
-  document.getElementById('ra').textContent='€'+(t*12).toLocaleString();
-}
+
 function playVideo(card,src){
   const vid=card.querySelector('.room-video');
   const play=card.querySelector('.room-play');
