@@ -85,7 +85,13 @@ h2 em{font-style:italic;color:var(--accent)}
 .room-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,216,130,0.06),transparent);opacity:0;transition:opacity 0.3s}
 .room-card:hover{background:var(--dark3)}
 .room-card:hover::before{opacity:1}
-.room-icon{font-size:28px;margin-bottom:1rem;display:block}
+.room-video-wrap{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:8px;margin-bottom:1rem;background:var(--dark3);cursor:none}
+.room-video{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s}
+.room-card:hover .room-video{transform:scale(1.04)}
+.room-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,12,16,0.35);transition:opacity 0.3s;font-size:22px;color:#fff}
+.room-card:hover .room-play{opacity:0}
+.room-info-wrap{padding:0 0.25rem}
+
 .room-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px}
 .room-dur{font-size:12px;color:var(--muted);margin-bottom:12px}
 .room-tags{display:flex;gap:6px;flex-wrap:wrap}
@@ -273,41 +279,71 @@ footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-i
 
 <section style="padding-top:3rem">
   <div class="rooms-grid reveal">
-    <div class="room-card">
-      <span class="room-icon">🛋️</span>
-      <div class="room-name">Living room</div>
-      <div class="room-dur">6 sec cinematic clip</div>
-      <div class="room-tags"><span class="rtag">Dolly forward</span><span class="rtag">Natural light</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu__202606050235.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Living_room_with_contemporary_fu__202606050235.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Living room</div>
+        <div class="room-dur">6 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Dolly forward</span><span class="rtag">Natural light</span><span class="rtag">4K</span></div>
+      </div>
     </div>
-    <div class="room-card">
-      <span class="room-icon">🍳</span>
-      <div class="room-name">Kitchen</div>
-      <div class="room-dur">6 sec cinematic clip</div>
-      <div class="room-tags"><span class="rtag">Camera glide</span><span class="rtag">Warm tones</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Kitchen_with_sleek_cabinetry_202606050235.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Kitchen_with_sleek_cabinetry_202606050235.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Kitchen</div>
+        <div class="room-dur">6 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Camera glide</span><span class="rtag">Warm tones</span><span class="rtag">4K</span></div>
+      </div>
     </div>
-    <div class="room-card">
-      <span class="room-icon">🛏️</span>
-      <div class="room-name">Bedrooms</div>
-      <div class="room-dur">6 sec each · up to 3</div>
-      <div class="room-tags"><span class="rtag">Pan shot</span><span class="rtag">Morning light</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Camera_drift_modern_bedroom_202606050235.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Camera_drift_modern_bedroom_202606050235.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Bedroom</div>
+        <div class="room-dur">6 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Pan shot</span><span class="rtag">Morning light</span><span class="rtag">4K</span></div>
+      </div>
     </div>
-    <div class="room-card">
-      <span class="room-icon">🚿</span>
-      <div class="room-name">Bathroom</div>
-      <div class="room-dur">8 sec cinematic clip</div>
-      <div class="room-tags"><span class="rtag">Push shot</span><span class="rtag">Clean white</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Bathroom_walkthrough_real_estate_202606050323.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Bathroom_walkthrough_real_estate_202606050323.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Bathroom</div>
+        <div class="room-dur">8 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Push shot</span><span class="rtag">Clean white</span><span class="rtag">4K</span></div>
+      </div>
     </div>
-    <div class="room-card">
-      <span class="room-icon">🌿</span>
-      <div class="room-name">Balcony</div>
-      <div class="room-dur">8 sec cinematic clip</div>
-      <div class="room-tags"><span class="rtag">Outdoor</span><span class="rtag">Blue sky</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining__202606050323.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Balcony_with_lounge_chair_dining__202606050323.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Balcony</div>
+        <div class="room-dur">8 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Outdoor</span><span class="rtag">Blue sky</span><span class="rtag">4K</span></div>
+      </div>
     </div>
-    <div class="room-card">
-      <span class="room-icon">🏢</span>
-      <div class="room-name">Exterior</div>
-      <div class="room-dur">8 sec cinematic clip</div>
-      <div class="room-tags"><span class="rtag">Aerial style</span><span class="rtag">Brussels</span><span class="rtag">4K</span></div>
+    <div class="room-card" onclick="playVideo(this,'https://hadrienzervas.github.io/vuebien/Third_bedroom_in_apartment_202606050235.mp4')">
+      <div class="room-video-wrap">
+        <video class="room-video" src="https://hadrienzervas.github.io/vuebien/Third_bedroom_in_apartment_202606050235.mp4" muted loop playsinline></video>
+        <div class="room-play">▶</div>
+      </div>
+      <div class="room-info-wrap">
+        <div class="room-name">Bedroom 2</div>
+        <div class="room-dur">6 sec cinematic clip</div>
+        <div class="room-tags"><span class="rtag">Aerial style</span><span class="rtag">Brussels</span><span class="rtag">4K</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -512,6 +548,16 @@ function calc(){
   document.getElementById('rt').textContent='€'+t.toLocaleString();
   document.getElementById('ra').textContent='€'+(t*12).toLocaleString();
 }
+function playVideo(card,src){
+  const vid=card.querySelector('.room-video');
+  const play=card.querySelector('.room-play');
+  if(vid.paused){vid.play();play.style.opacity='0';}
+  else{vid.pause();play.style.opacity='1';}
+}
+document.querySelectorAll('.room-video').forEach(v=>{
+  v.addEventListener('mouseenter',()=>v.play());
+  v.addEventListener('mouseleave',()=>{v.pause();v.currentTime=0;v.closest('.room-card').querySelector('.room-play').style.opacity='1';});
+});
 function submitForm(e){
   e.preventDefault();
   document.getElementById('success').style.display='block';
@@ -520,4 +566,3 @@ function submitForm(e){
 </script>
 </body>
 </html>
-
