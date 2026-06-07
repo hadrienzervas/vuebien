@@ -209,6 +209,7 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
 @media(max-width:480px){
   .rooms-grid{grid-template-columns:1fr}
   h2{font-size:32px}
+  .room-video-wrap{aspect-ratio:16/9}
 }
 </style>
 </head>
@@ -538,19 +539,43 @@ window.addEventListener('scroll',()=>{
 document.querySelectorAll('.reveal').forEach(el=>{
   if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
 });
+const isMobile=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 function hoverPlay(card){
+  if(isMobile)return;
   const v=card.querySelector('.room-video');
   const p=card.querySelector('.room-play');
   v.play();
   p.style.opacity='0';
 }
 function hoverPause(card){
+  if(isMobile)return;
   const v=card.querySelector('.room-video');
   const p=card.querySelector('.room-play');
   v.pause();
   v.currentTime=0;
   p.style.opacity='1';
 }
+function tapPlay(card){
+  if(!isMobile)return;
+  const v=card.querySelector('.room-video');
+  const p=card.querySelector('.room-play');
+  if(v.paused){
+    // pause all others first
+    document.querySelectorAll('.room-video').forEach(ov=>{
+      if(ov!==v){ov.pause();ov.currentTime=0;ov.closest('.room-card').querySelector('.room-play').style.opacity='1';}
+    });
+    v.play();
+    p.style.opacity='0';
+  } else {
+    v.pause();
+    v.currentTime=0;
+    p.style.opacity='1';
+  }
+}
+// Add tap handler for mobile
+document.querySelectorAll('.room-card').forEach(card=>{
+  card.addEventListener('click',()=>tapPlay(card));
+});
 function playTour(){
   const v=document.getElementById('tourVideo');
   const o=document.getElementById('tourOverlay');
