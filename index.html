@@ -66,6 +66,9 @@ nav.scrolled{background:rgba(247,243,238,0.96);backdrop-filter:blur(12px);border
 .stat:last-child{border-right:none}
 .snum{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold2);line-height:1;display:block}
 .slabel{font-size:11px;color:rgba(247,243,238,0.45);margin-top:8px;line-height:1.5;letter-spacing:0.08em;text-transform:uppercase}
+.ssource{font-size:10px;color:rgba(184,150,90,0.5);margin-top:6px;display:block;letter-spacing:0.08em;font-style:italic}
+.stats-note{background:var(--dark3);padding:0.75rem 3rem;text-align:center;font-size:11px;color:rgba(247,243,238,0.3);letter-spacing:0.05em;border-bottom:1px solid rgba(184,150,90,0.1)}
+.stats-note span{color:var(--gold);opacity:0.6}
 
 /* Section base */
 .sec{padding:7rem 5rem;max-width:1300px;margin:0 auto}
@@ -87,7 +90,7 @@ h2 em{font-style:italic;color:var(--gold)}
 /* Rooms */
 .rooms-section{background:var(--cream2);padding:7rem 5rem}
 .rooms-inner{max-width:1300px;margin:0 auto}
-.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:3rem}
+.rooms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:3rem}
 .room-card{background:var(--cream);position:relative;overflow:hidden;cursor:pointer}
 .room-video-wrap{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--dark);}
 .room-video{width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transition:transform 0.6s ease}
@@ -136,13 +139,19 @@ h2 em{font-style:italic;color:var(--gold)}
 .plan.feat .pbtn:hover{background:var(--gold2)}
 
 /* Steps */
-.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;margin-top:4rem}
-.step{position:relative}
-.step::after{content:'';position:absolute;top:20px;right:-1.5rem;width:3rem;height:1px;background:var(--border2)}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3rem}
+.step{position:relative;background:var(--cream2);border:1px solid var(--border);padding:2rem;transition:all 0.3s}
+.step:hover{border-color:var(--border2);background:var(--cream3)}
+.step::after{content:'';position:absolute;top:2.5rem;right:-1rem;width:2rem;height:1px;background:var(--border2);z-index:1}
 .step:last-child::after{display:none}
-.step-n{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);opacity:0.25;line-height:1;margin-bottom:1rem}
-.step-t{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;margin-bottom:8px;color:var(--dark)}
-.step-d{font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
+.step-n{font-family:'Playfair Display',serif;font-size:40px;font-weight:400;color:var(--gold);opacity:0.3;line-height:1;margin-bottom:1rem}
+.step-t{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;margin-bottom:10px;color:var(--dark)}
+.step-d{font-size:12px;color:var(--muted);line-height:1.8;font-weight:300}
+/* AI Note */
+.ai-note{display:flex;align-items:flex-start;gap:1.5rem;background:var(--dark2);border:1px solid rgba(184,150,90,0.25);padding:2rem 2.5rem;margin-top:3rem;border-left:3px solid var(--gold)}
+.ai-note-icon{font-size:24px;color:var(--gold);flex-shrink:0;margin-top:2px}
+.ai-note-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--cream);margin-bottom:8px}
+.ai-note-desc{font-size:13px;color:rgba(247,243,238,0.5);line-height:1.8;font-weight:300}
 
 /* Free banner */
 .banner{background:var(--cream2);border:1px solid var(--border2);padding:4rem 5rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;margin:0 5rem 7rem;max-width:1300px;margin-left:auto;margin-right:auto;position:relative;overflow:hidden}
@@ -193,11 +202,12 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
   .banner{margin-left:2rem;margin-right:2rem;flex-direction:column}
   footer{grid-template-columns:1fr;gap:1rem;text-align:center}
   .fmail{text-align:center}
+  .ai-note{flex-direction:column;gap:1rem}
 }
 @media(max-width:768px){
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
-  .rooms-grid{grid-template-columns:1fr 1fr}
+  .rooms-grid{grid-template-columns:repeat(2,1fr)}
   .services-grid{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,1fr)}
   .steps-grid{grid-template-columns:1fr}
@@ -239,7 +249,7 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
     <div class="hero-scroll">Discover</div>
   </div>
   <div class="hero-right">
-    <video autoplay muted loop playsinline src="https://hadrienzervas.github.io/EstateReel/living-room.mp4"></video>
+    <video autoplay muted loop playsinline src="https://hadrienzervas.github.io/EstateReel/Walk_through_room_to_window_202606082256.mp4"></video>
   </div>
 </div>
 
@@ -250,28 +260,34 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
   <div class="stat reveal">
     <span class="snum">403%</span>
     <span class="slabel">More inquiries<br>with video listings</span>
+    <span class="ssource">NAR, 2024</span>
   </div>
   <div class="stat reveal">
-    <span class="snum">49%</span>
+    <span class="snum">31%</span>
     <span class="slabel">Faster sale time<br>vs photo-only</span>
+    <span class="ssource">NAR, 2024</span>
   </div>
   <div class="stat reveal">
     <span class="snum">73%</span>
     <span class="slabel">Sellers prefer<br>agents using video</span>
+    <span class="ssource">NAR, 2025</span>
   </div>
   <div class="stat reveal">
     <span class="snum">6%</span>
     <span class="slabel">Higher average<br>sale price</span>
+    <span class="ssource">Realtor.com, 2023</span>
   </div>
 </div>
+
+<div class="stats-note">All statistics sourced from the <span>National Association of Realtors (NAR)</span> and Realtor.com — the industry's leading real estate research bodies.</div>
 
 <!-- Full Tour -->
 <section class="sec" id="tour">
   <div class="sec-tag reveal">Full Property Tour</div>
   <h2 class="reveal">AI Generated<br><em>Room Showcase</em></h2>
-  <p class="sec-sub reveal">A complete cinematic walkthrough of every room — living room, kitchen, bedrooms, bathroom and balcony — set to elegant background music.</p>
+  <p class="sec-sub reveal">This full walkthrough video is entirely AI generated — created from room photos with no camera crew or on-site visit. Every room animated using artificial intelligence, assembled with smooth transitions and delivered as one cinematic property tour.</p>
   <div class="tour-wrap reveal">
-    <video id="tourVideo" src="https://hadrienzervas.github.io/EstateReel/apartment_walkthrough_full%20(2).mp4" preload="metadata"></video>
+    <video id="tourVideo" src="https://hadrienzervas.github.io/EstateReel/Brussels_apartment_tour_v2.mp4" preload="metadata"></video>
     <div class="tour-overlay" id="tourOverlay" onclick="playTour()">
       <div class="tour-play">▶</div>
     </div>
@@ -284,72 +300,94 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
   <div class="rooms-inner">
     <div class="sec-tag reveal">Room by Room</div>
     <h2 class="reveal">Individual <em>room clips</em></h2>
-    <p class="sec-sub reveal">Each room delivered as a separate cinematic clip — perfect for posting one per day across Instagram, TikTok and Facebook.</p>
+    <p class="sec-sub reveal">All videos below are 100% AI generated — no camera, no crew, no site visit. Each clip was created from a single room photo using the latest artificial intelligence models. Hover over any room to see it come to life.</p>
     <div class="rooms-grid reveal">
       <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
         <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/living-room.mp4" muted loop playsinline preload="none"></video>
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/slowly_advance_towards_the_house_202606082256.mp4" muted loop playsinline preload="none"></video>
+          <div class="room-play"><div class="room-play-btn">▶</div></div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Exterior</div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Aerial View</span><span class="rtag">Natural Light</span><span class="rtag">4K</span></div>
+        </div>
+      </div>
+      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
+        <div class="room-video-wrap">
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Walk_through_room_to_window_202606082256.mp4" muted loop playsinline preload="none"></video>
           <div class="room-play"><div class="room-play-btn">▶</div></div>
         </div>
         <div class="room-info">
           <div class="room-name">Living Room</div>
-          <div class="room-dur">6 sec · Cinematic Clip</div>
+          <div class="room-dur">Cinematic Clip</div>
           <div class="room-tags"><span class="rtag">Dolly Forward</span><span class="rtag">Natural Light</span><span class="rtag">4K</span></div>
         </div>
       </div>
       <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
         <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/kitchen.mp4" muted loop playsinline preload="none"></video>
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Walk_in_kitchen_around_table_202606082255.mp4" muted loop playsinline preload="none"></video>
           <div class="room-play"><div class="room-play-btn">▶</div></div>
         </div>
         <div class="room-info">
           <div class="room-name">Kitchen</div>
-          <div class="room-dur">6 sec · Cinematic Clip</div>
+          <div class="room-dur">Cinematic Clip</div>
           <div class="room-tags"><span class="rtag">Camera Glide</span><span class="rtag">Warm Tones</span><span class="rtag">4K</span></div>
         </div>
       </div>
       <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
         <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/bedroom1.mp4" muted loop playsinline preload="none"></video>
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Camera_drift_modern_bedroom_202606082255.mp4" muted loop playsinline preload="none"></video>
           <div class="room-play"><div class="room-play-btn">▶</div></div>
         </div>
         <div class="room-info">
           <div class="room-name">Master Bedroom</div>
-          <div class="room-dur">6 sec · Cinematic Clip</div>
-          <div class="room-tags"><span class="rtag">Pan Shot</span><span class="rtag">Morning Light</span><span class="rtag">4K</span></div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Pan Shot</span><span class="rtag">Luxury</span><span class="rtag">4K</span></div>
         </div>
       </div>
       <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
         <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/bathroom.mp4" muted loop playsinline preload="none"></video>
-          <div class="room-play"><div class="room-play-btn">▶</div></div>
-        </div>
-        <div class="room-info">
-          <div class="room-name">Bathroom</div>
-          <div class="room-dur">8 sec · Cinematic Clip</div>
-          <div class="room-tags"><span class="rtag">Push Shot</span><span class="rtag">Clean White</span><span class="rtag">4K</span></div>
-        </div>
-      </div>
-      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
-        <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/balcony.mp4" muted loop playsinline preload="none"></video>
-          <div class="room-play"><div class="room-play-btn">▶</div></div>
-        </div>
-        <div class="room-info">
-          <div class="room-name">Balcony</div>
-          <div class="room-dur">8 sec · Cinematic Clip</div>
-          <div class="room-tags"><span class="rtag">Outdoor</span><span class="rtag">Blue Sky</span><span class="rtag">4K</span></div>
-        </div>
-      </div>
-      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
-        <div class="room-video-wrap">
-          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Advance_through_modern_bedroom_202606072324.mp4" muted loop playsinline preload="none"></video>
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Video%20Project%201.mp4" muted loop playsinline preload="none"></video>
           <div class="room-play"><div class="room-play-btn">▶</div></div>
         </div>
         <div class="room-info">
           <div class="room-name">Bedroom 2</div>
-          <div class="room-dur">6 sec · Cinematic Clip</div>
-          <div class="room-tags"><span class="rtag">Drift Shot</span><span class="rtag">Natural Light</span><span class="rtag">4K</span></div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Drift Shot</span><span class="rtag">Modern</span><span class="rtag">4K</span></div>
+        </div>
+      </div>
+      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
+        <div class="room-video-wrap">
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Bedroom_in_Brussels_apartment_202606082256.mp4" muted loop playsinline preload="none"></video>
+          <div class="room-play"><div class="room-play-btn">▶</div></div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Bedroom 3</div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Suite View</span><span class="rtag">Panoramic</span><span class="rtag">4K</span></div>
+        </div>
+      </div>
+      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
+        <div class="room-video-wrap">
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Push_through_modern_bathroom_202606082300.mp4" muted loop playsinline preload="none"></video>
+          <div class="room-play"><div class="room-play-btn">▶</div></div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Bathroom</div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Push Shot</span><span class="rtag">Clean</span><span class="rtag">4K</span></div>
+        </div>
+      </div>
+      <div class="room-card" onmouseenter="hoverPlay(this)" onmouseleave="hoverPause(this)">
+        <div class="room-video-wrap">
+          <video class="room-video" src="https://hadrienzervas.github.io/EstateReel/Glide_through_balcony_view_202606082306.mp4" muted loop playsinline preload="none"></video>
+          <div class="room-play"><div class="room-play-btn">▶</div></div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Balcony</div>
+          <div class="room-dur">Cinematic Clip</div>
+          <div class="room-tags"><span class="rtag">Outdoor</span><span class="rtag">Garden View</span><span class="rtag">4K</span></div>
         </div>
       </div>
     </div>
@@ -365,7 +403,7 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
     <div class="service">
       <div class="service-num">01</div>
       <div class="service-title">Full Property Walkthrough</div>
-      <div class="service-desc">All rooms combined into one elegant video with smooth transitions and licensed background music. Ready to upload to Immoweb, your website or YouTube.</div>
+      <div class="service-desc">All rooms combined into one elegant video with smooth transitions. Ready to upload to your property listing, your agency website or YouTube.</div>
     </div>
     <div class="service">
       <div class="service-num">02</div>
@@ -399,7 +437,7 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
         <ul class="plist">
           <li>Up to 8 room clips</li>
           <li>Full combined walkthrough video</li>
-          <li>Licensed background music</li>
+          
           <li>48 hour delivery</li>
         </ul>
         <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
@@ -419,7 +457,7 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
       </div>
       <div class="plan">
         <div class="pname">Monthly Retainer</div>
-        <div class="pprice"><sup>€</sup>675<sub>/mo</sub></div>
+        <div class="pprice"><sup>€</sup>400<sub>/mo</sub></div>
         <div class="pdesc">Unlimited listings per month — ideal for busy agencies with regular turnover.</div>
         <ul class="plist">
           <li>Unlimited properties per month</li>
@@ -436,27 +474,36 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
 <!-- Steps -->
 <section class="sec">
   <div class="sec-tag reveal">The Process</div>
-  <h2 class="reveal">Ready in <em>four steps</em></h2>
+  <h2 class="reveal">How it works —<br><em>start to finish</em></h2>
+  <p class="sec-sub reveal">No camera crew. No scheduling. No on-site visits. Everything is created remotely using artificial intelligence — from your listing photos to a finished cinematic video, delivered within 48 hours.</p>
   <div class="steps-grid reveal">
     <div class="step">
       <div class="step-n">01</div>
-      <div class="step-t">Send the listing</div>
-      <div class="step-d">Share your Immoweb URL or screenshots of the property photos. That is all we need to begin.</div>
+      <div class="step-t">You send us the listing</div>
+      <div class="step-d">Simply share your property listing URL or send us screenshots of the property photos. No need to arrange a visit or hire a camera crew — we work entirely from the photos you already have.</div>
     </div>
     <div class="step">
       <div class="step-n">02</div>
-      <div class="step-t">We generate the clips</div>
-      <div class="step-d">Using the latest AI video models we create a photorealistic cinematic clip for every room.</div>
+      <div class="step-t">AI generates the video clips</div>
+      <div class="step-d">We use the latest artificial intelligence video models — the latest artificial intelligence models — to transform each room photo into a smooth, photorealistic cinematic video clip. The AI animates the space with natural camera movement, realistic lighting and depth — all without ever setting foot in the property.</div>
     </div>
     <div class="step">
       <div class="step-n">03</div>
-      <div class="step-t">We edit and deliver</div>
-      <div class="step-d">All clips are combined with smooth transitions, licensed music and room titles into one polished video.</div>
+      <div class="step-t">We edit and produce the final video</div>
+      <div class="step-d">All individual room clips are assembled into one polished property video with smooth transitions between rooms and professional room title cards. You also receive every room as a separate clip for social media use.</div>
     </div>
     <div class="step">
       <div class="step-n">04</div>
-      <div class="step-t">You publish and sell</div>
-      <div class="step-d">Post the full tour on Immoweb and individual clips on social media. Watch your inquiries grow.</div>
+      <div class="step-t">You publish and attract more buyers</div>
+      <div class="step-d">Post the full tour directly on your property listing, your agency website and YouTube. Share individual room clips on Instagram Reels, TikTok and Facebook — one room per day gives you a full week of content from a single property.</div>
+    </div>
+  </div>
+
+  <div class="ai-note reveal">
+    <div class="ai-note-icon">✦</div>
+    <div>
+      <div class="ai-note-title">100% AI Generated — No Camera Crew Required</div>
+      <div class="ai-note-desc">All videos produced by EstateReel are created entirely using artificial intelligence. No photographer or videographer visits the property. The results are cinematic, photorealistic and indistinguishable from traditionally filmed content — at a fraction of the cost and time. The example videos shown on this website were generated from room photos using the same process we apply to every client listing.</div>
     </div>
   </div>
 </section>
@@ -514,8 +561,8 @@ footer{background:var(--dark);padding:3rem 5rem;display:grid;grid-template-colum
         <input type="tel" placeholder="+32 XXX XX XX XX">
       </div>
       <div class="ff">
-        <label>Immoweb Listing URL</label>
-        <textarea placeholder="Paste your Immoweb listing URL here, or describe the property..."></textarea>
+        <label>Property Listing URL</label>
+        <textarea placeholder="Paste your property listing URL here, or describe the property..."></textarea>
       </div>
       <button type="submit" class="submit-btn">Send Request — First Video Is Free</button>
       <div class="success" id="success">Your request has been received. We will be in touch within a few hours.</div>
